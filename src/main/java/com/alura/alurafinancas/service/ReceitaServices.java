@@ -25,11 +25,8 @@ public class ReceitaServices {
     }
 
     private Boolean validaReceita(ReceitaDTO receitaDTO) {
-        Optional<Receita> receita = receitaRepository.findFirstByDescricaoOrData(receitaDTO.getDescricao(), receitaDTO.getData());
-        if (receita.isPresent()) {
-            return receita.get().getData().getMonthValue() != receitaDTO.getData().getMonthValue() || !receita.get().getDescricao().equals(receitaDTO.getDescricao());
-        }
-        return true;
+        Optional<Receita> receita = receitaRepository.findByDescricaoAndData(receitaDTO.getDescricao(), receitaDTO.getData());
+        return receita.isEmpty();
     }
 
 }
