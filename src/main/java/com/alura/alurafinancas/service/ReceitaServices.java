@@ -15,6 +15,11 @@ public class ReceitaServices {
     @Autowired
     ReceitaRepository receitaRepository;
 
+    private Boolean validaReceita(ReceitaDTO receitaDTO) {
+        Optional<Receita> receita = receitaRepository.findByDescricaoAndData(receitaDTO.getDescricao(), receitaDTO.getData());
+        return receita.isEmpty();
+    }
+
     public ReceitaDTO cadastrarReceita(ReceitaDTO receitaDTO) throws DataIntegrityViolationException {
         if (validaReceita(receitaDTO)) {
             Receita receita = new Receita(receitaDTO);
@@ -32,8 +37,11 @@ public class ReceitaServices {
         throw new IllegalArgumentException("Não foi encontrada nenhuma receita com id: " + id);
     }
 
-    private Boolean validaReceita(ReceitaDTO receitaDTO) {
-        Optional<Receita> receita = receitaRepository.findByDescricaoAndData(receitaDTO.getDescricao(), receitaDTO.getData());
-        return receita.isEmpty();
+    public ReceitaDTO atualizaReceita(ReceitaDTO receitaDTO) {
+        if (validaReceita(receitaDTO)) {
+            return new ReceitaDTO(receitaRepository.save(new Receita(receitaDTO)));
+        } else {
+            throw new IllegalArgumentException("Data ou descrição devem ser diferentes, para realizar a alteração.");
+        }
     }
 }
