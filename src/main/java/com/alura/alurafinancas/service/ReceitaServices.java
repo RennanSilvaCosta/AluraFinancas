@@ -24,9 +24,16 @@ public class ReceitaServices {
         }
     }
 
+    public ReceitaDTO getReceitaById(Long id) {
+        Optional<Receita> receita = receitaRepository.findById(id);
+        if (receita.isPresent()) {
+            return new ReceitaDTO(receita.get());
+        }
+        throw new IllegalArgumentException("Não foi encontrada nenhuma receita com id: " + id);
+    }
+
     private Boolean validaReceita(ReceitaDTO receitaDTO) {
         Optional<Receita> receita = receitaRepository.findByDescricaoAndData(receitaDTO.getDescricao(), receitaDTO.getData());
         return receita.isEmpty();
     }
-
 }
