@@ -28,4 +28,12 @@ public class ReceitaController {
         return ResponseEntity.ok().body(receitaServices.getReceitaById(id));
     }
 
+    @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+    public ResponseEntity<ReceitaDTO> atualizaReceita(@PathVariable Long id, @RequestBody ReceitaDTO receita) {
+        receita.setId(id);
+        ReceitaDTO receitaDTO = receitaServices.atualizaReceita(receita);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(receitaDTO.getId()).toUri();
+        return ResponseEntity.created(uri).body(receitaDTO);
+    }
+
 }
