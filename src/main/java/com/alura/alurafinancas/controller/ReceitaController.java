@@ -36,4 +36,9 @@ public class ReceitaController {
         return ResponseEntity.created(uri).body(receitaDTO);
     }
 
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
+    public ResponseEntity<Void> excluiReceita(@PathVariable Long id) {
+        receitaServices.excluiReceita(id);
+        return ResponseEntity.noContent().build();
+    }
 }
