@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/despesas")
@@ -40,6 +41,11 @@ public class DespesaController {
     public ResponseEntity<Void> excluiDespesa(@PathVariable Long id) {
         despesaServices.excluiDespesa(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<DespesaDTO>> listarDespesas() {
+        return ResponseEntity.ok(despesaServices.listarDespesas());
     }
 
 }
