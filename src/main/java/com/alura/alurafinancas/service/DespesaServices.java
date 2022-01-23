@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class DespesaServices {
@@ -59,5 +61,9 @@ public class DespesaServices {
         } else {
             throw new IllegalArgumentException("Não foi encontrada nenhuma despesa com id: " + id);
         }
+    }
+
+    public List<DespesaDTO> listarDespesas() {
+         return despesaRepository.findAll().stream().map(despesa -> new DespesaDTO(despesa)).collect(Collectors.toList());
     }
 }
