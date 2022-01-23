@@ -36,5 +36,10 @@ public class DespesaController {
         return ResponseEntity.created(uri).body(despesaDTO);
     }
 
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
+    public ResponseEntity<Void> excluiDespesa(@PathVariable Long id) {
+        despesaServices.excluiDespesa(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }
