@@ -20,6 +20,10 @@ public class DespesaServices {
         return despesa.isEmpty();
     }
 
+    private Optional<Despesa> despesaExistePorId(DespesaDTO despesaDTO) {
+        return despesaRepository.findById(despesaDTO.getId());
+    }
+
     public DespesaDTO cadastrarDespesa(DespesaDTO despesaDTO) {
         if (despesaExiste(despesaDTO)) {
             Despesa despesa = new Despesa(despesaDTO);
@@ -35,5 +39,17 @@ public class DespesaServices {
             return new DespesaDTO(despesa.get());
         }
         throw new IllegalArgumentException("Não foi encontrada nenhuma despesa com id: " + id);
+    }
+
+    public DespesaDTO atualizaDespesa(DespesaDTO despesaDTO) {
+        if (despesaExistePorId(despesaDTO).isPresent()) {
+            if (despesaExiste(despesaDTO)) {
+                return new DespesaDTO(despesaRepository.save(new Despesa(despesaDTO)));
+            } else {
+                throw new IllegalArgumentException("Data ou descrição devem ser diferentes, para realizar a alteração.");
+            }
+        } else {
+            throw new IllegalArgumentException("Não foi encontrada nenhuma despesa com id: " + despesaDTO.getId());
+        }
     }
 }
