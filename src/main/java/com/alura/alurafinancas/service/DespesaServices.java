@@ -29,4 +29,11 @@ public class DespesaServices {
         }
     }
 
+    public DespesaDTO buscaDespesaPorId(Long id) {
+        Optional<Despesa> despesa = despesaRepository.findById(id);
+        if (despesa.isPresent()) {
+            return new DespesaDTO(despesa.get());
+        }
+        throw new IllegalArgumentException("Não foi encontrada nenhuma despesa com id: " + id);
+    }
 }
