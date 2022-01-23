@@ -28,4 +28,13 @@ public class DespesaController {
         return ResponseEntity.ok().body(despesaServices.buscaDespesaPorId(id));
     }
 
+    @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+    public ResponseEntity<DespesaDTO> atualizaDespesa(@PathVariable Long id, @RequestBody DespesaDTO despesa) {
+        despesa.setId(id);
+        DespesaDTO despesaDTO = despesaServices.atualizaDespesa(despesa);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(despesaDTO.getId()).toUri();
+        return ResponseEntity.created(uri).body(despesaDTO);
+    }
+
+
 }
