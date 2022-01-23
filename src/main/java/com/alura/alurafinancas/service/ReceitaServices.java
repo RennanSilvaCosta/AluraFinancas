@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ReceitaServices {
@@ -53,4 +55,7 @@ public class ReceitaServices {
         }
     }
 
+    public List<ReceitaDTO> listarReceitas() {
+        return receitaRepository.findAll().stream().map(receita -> new ReceitaDTO(receita)).collect(Collectors.toList());
+    }
 }
