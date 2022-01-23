@@ -35,7 +35,7 @@ public class ReceitaServices {
         }
     }
 
-    public ReceitaDTO getReceitaById(Long id) {
+    public ReceitaDTO buscaReceitaPorId(Long id) {
         Optional<Receita> receita = receitaRepository.findById(id);
         if (receita.isPresent()) {
             return new ReceitaDTO(receita.get());
