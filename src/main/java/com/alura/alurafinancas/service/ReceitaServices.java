@@ -22,6 +22,10 @@ public class ReceitaServices {
         return receita.isEmpty();
     }
 
+    private Optional<Receita> receitaExistePorId(Long id) {
+        return receitaRepository.findById(id);
+    }
+
     public ReceitaDTO cadastrarReceita(ReceitaDTO receitaDTO) throws DataIntegrityViolationException {
         if (receitaExiste(receitaDTO)) {
             Receita receita = new Receita(receitaDTO);
@@ -40,10 +44,14 @@ public class ReceitaServices {
     }
 
     public ReceitaDTO atualizaReceita(ReceitaDTO receitaDTO) {
-        if (receitaExiste(receitaDTO)) {
-            return new ReceitaDTO(receitaRepository.save(new Receita(receitaDTO)));
+        if (receitaExistePorId(receitaDTO.getId()).isPresent()) {
+            if (receitaExiste(receitaDTO)) {
+                return new ReceitaDTO(receitaRepository.save(new Receita(receitaDTO)));
+            } else {
+                throw new IllegalArgumentException("Data ou descrição devem ser diferentes, para realizar a alteração.");
+            }
         } else {
-            throw new IllegalArgumentException("Data ou descrição devem ser diferentes, para realizar a alteração.");
+            throw new IllegalArgumentException("Não foi encontrada nenhuma receita com id: " + receitaDTO.getId());
         }
     }
 
