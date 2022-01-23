@@ -25,8 +25,8 @@ public class ReceitaController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
-    public ResponseEntity<ReceitaDTO> getReceitaById(@PathVariable Long id) {
-        return ResponseEntity.ok().body(receitaServices.getReceitaById(id));
+    public ResponseEntity<ReceitaDTO> buscaReceitaPorId(@PathVariable Long id) {
+        return ResponseEntity.ok().body(receitaServices.buscaReceitaPorId(id));
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")

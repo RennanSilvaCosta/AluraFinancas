@@ -22,6 +22,10 @@ public class ReceitaServices {
         return receita.isEmpty();
     }
 
+    private Optional<Receita> receitaExistePorId(Long id) {
+        return receitaRepository.findById(id);
+    }
+
     public ReceitaDTO cadastrarReceita(ReceitaDTO receitaDTO) throws DataIntegrityViolationException {
         if (receitaExiste(receitaDTO)) {
             Receita receita = new Receita(receitaDTO);
@@ -31,7 +35,7 @@ public class ReceitaServices {
         }
     }
 
-    public ReceitaDTO getReceitaById(Long id) {
+    public ReceitaDTO buscaReceitaPorId(Long id) {
         Optional<Receita> receita = receitaRepository.findById(id);
         if (receita.isPresent()) {
             return new ReceitaDTO(receita.get());
@@ -40,18 +44,22 @@ public class ReceitaServices {
     }
 
     public ReceitaDTO atualizaReceita(ReceitaDTO receitaDTO) {
-        if (receitaExiste(receitaDTO)) {
-            return new ReceitaDTO(receitaRepository.save(new Receita(receitaDTO)));
+        if (receitaExistePorId(receitaDTO.getId()).isPresent()) {
+            if (receitaExiste(receitaDTO)) {
+                return new ReceitaDTO(receitaRepository.save(new Receita(receitaDTO)));
+            } else {
+                throw new IllegalArgumentException("Data ou descrição devem ser diferentes, para realizar a alteração.");
+            }
         } else {
-            throw new IllegalArgumentException("Data ou descrição devem ser diferentes, para realizar a alteração.");
+            throw new IllegalArgumentException("Não foi encontrada nenhuma receita com id: " + receitaDTO.getId());
         }
     }
 
     public void excluiReceita(Long id) {
-        try {
+        if (receitaExistePorId(id).isPresent()) {
             receitaRepository.deleteById(id);
-        } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationException("Não foi possivel deletar a receita informado");
+        } else {
+            throw new IllegalArgumentException("Não foi encontrada nenhuma receita com id: " + id);
         }
     }
 
