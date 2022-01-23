@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/receitas")
@@ -40,5 +41,10 @@ public class ReceitaController {
     public ResponseEntity<Void> excluiReceita(@PathVariable Long id) {
         receitaServices.excluiReceita(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<ReceitaDTO>> listarReceitas() {
+        return ResponseEntity.ok(receitaServices.listarReceitas());
     }
 }
