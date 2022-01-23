@@ -56,10 +56,10 @@ public class ReceitaServices {
     }
 
     public void excluiReceita(Long id) {
-        try {
+        if (receitaExistePorId(id).isPresent()) {
             receitaRepository.deleteById(id);
-        } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationException("Não foi possivel deletar a receita informado");
+        } else {
+            throw new IllegalArgumentException("Não foi encontrada nenhuma receita com id: " + id);
         }
     }
 
