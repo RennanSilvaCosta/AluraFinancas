@@ -45,8 +45,8 @@ public class DespesaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<DespesaDTO>> listarDespesas() {
-        return ResponseEntity.ok(despesaServices.listarDespesas());
+    public ResponseEntity<List<DespesaDTO>> listarDespesas(@RequestParam(required = false) String descricao) {
+        return ResponseEntity.ok(despesaServices.listarDespesas(descricao));
     }
 
 }

@@ -63,7 +63,11 @@ public class DespesaServices {
         }
     }
 
-    public List<DespesaDTO> listarDespesas() {
-         return despesaRepository.findAll().stream().map(despesa -> new DespesaDTO(despesa)).collect(Collectors.toList());
+    public List<DespesaDTO> listarDespesas(String descricao) {
+        if (descricao == null || descricao.isBlank()) {
+            return despesaRepository.findAll().stream().map(despesa -> new DespesaDTO(despesa)).collect(Collectors.toList());
+        } else {
+            return despesaRepository.findByDescricaoContains(descricao).stream().map(despesa -> new DespesaDTO(despesa)).collect(Collectors.toList());
+        }
     }
 }
