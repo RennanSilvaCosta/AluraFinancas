@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -69,5 +70,11 @@ public class DespesaServices {
         } else {
             return despesaRepository.findByDescricaoContains(descricao).stream().map(despesa -> new DespesaDTO(despesa)).collect(Collectors.toList());
         }
+    }
+
+    public List<DespesaDTO> listarDespesasPorMes(Integer ano, Integer mes) {
+        LocalDate dataInicial = LocalDate.of(ano, mes, 1);
+        LocalDate dataFinal = LocalDate.of(ano, mes, dataInicial.lengthOfMonth());
+        return despesaRepository.findByDataBetween(dataInicial, dataFinal).stream().map(despesa -> new DespesaDTO(despesa)).collect(Collectors.toList());
     }
 }
