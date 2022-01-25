@@ -45,7 +45,7 @@ public class ReceitaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ReceitaDTO>> listarReceitas() {
-        return ResponseEntity.ok(receitaServices.listarReceitas());
+    public ResponseEntity<List<ReceitaDTO>> listarReceitas(@RequestParam(required = false) String descricao) {
+        return ResponseEntity.ok(receitaServices.listarReceitas(descricao));
     }
 }

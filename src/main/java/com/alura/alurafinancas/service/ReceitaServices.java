@@ -63,7 +63,11 @@ public class ReceitaServices {
         }
     }
 
-    public List<ReceitaDTO> listarReceitas() {
-        return receitaRepository.findAll().stream().map(receita -> new ReceitaDTO(receita)).collect(Collectors.toList());
+    public List<ReceitaDTO> listarReceitas(String descricao) {
+        if (descricao == null || descricao.isBlank()) {
+            return receitaRepository.findAll().stream().map(receita -> new ReceitaDTO(receita)).collect(Collectors.toList());
+        } else {
+            return receitaRepository.findByDescricaoContains(descricao).stream().map(receita -> new ReceitaDTO(receita)).collect(Collectors.toList());
+        }
     }
 }
