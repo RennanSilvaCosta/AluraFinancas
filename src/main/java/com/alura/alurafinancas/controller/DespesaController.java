@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class DespesaController {
     DespesaServices despesaServices;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<DespesaDTO> cadastrarDespesa(@RequestBody DespesaDTO despesa) {
+    public ResponseEntity<DespesaDTO> cadastrarDespesa(@Valid @RequestBody DespesaDTO despesa) {
         DespesaDTO depesaDTO = despesaServices.cadastrarDespesa(despesa);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(depesaDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(depesaDTO);
@@ -30,7 +31,7 @@ public class DespesaController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
-    public ResponseEntity<DespesaDTO> atualizaDespesa(@PathVariable Long id, @RequestBody DespesaDTO despesa) {
+    public ResponseEntity<DespesaDTO> atualizaDespesa(@Valid @PathVariable Long id, @RequestBody DespesaDTO despesa) {
         despesa.setId(id);
         DespesaDTO despesaDTO = despesaServices.atualizaDespesa(despesa);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(despesaDTO.getId()).toUri();

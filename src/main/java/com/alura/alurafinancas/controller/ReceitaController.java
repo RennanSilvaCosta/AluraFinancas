@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class ReceitaController {
     ReceitaServices receitaServices;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<ReceitaDTO> cadastrarReceita(@RequestBody ReceitaDTO receita) {
+    public ResponseEntity<ReceitaDTO> cadastrarReceita(@Valid @RequestBody ReceitaDTO receita) {
         ReceitaDTO receitaDTO = receitaServices.cadastrarReceita(receita);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(receitaDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(receitaDTO);
@@ -30,7 +31,7 @@ public class ReceitaController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
-    public ResponseEntity<ReceitaDTO> atualizaReceita(@PathVariable Long id, @RequestBody ReceitaDTO receita) {
+    public ResponseEntity<ReceitaDTO> atualizaReceita(@Valid @PathVariable Long id, @RequestBody ReceitaDTO receita) {
         receita.setId(id);
         ReceitaDTO receitaDTO = receitaServices.atualizaReceita(receita);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(receitaDTO.getId()).toUri();

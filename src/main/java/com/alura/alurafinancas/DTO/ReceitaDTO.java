@@ -2,27 +2,28 @@ package com.alura.alurafinancas.DTO;
 
 import com.alura.alurafinancas.model.Receita;
 import com.alura.alurafinancas.model.enums.StatusPagamento;
-import com.sun.istack.NotNull;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class ReceitaDTO {
 
-    @NotNull
     private Long id;
 
-    @NotNull
-    @NotBlank
+    @NotNull(message = "A descrição não pode ser nula.")
+    @NotEmpty(message = "A descrição é obrigatoria.")
     private String descricao;
 
-    @NotNull
-    private Double valor;
+    @NotNull(message = "O valor não pode ser nulo.")
+    @Positive(message = "O valor deve ser maior do que ZERO.")
+    private BigDecimal valor;
 
-    @NotNull
+    @NotNull(message = "A data não pode ser nula.")
     private LocalDate data;
 
-    @NotNull
     private StatusPagamento pago;
 
     public ReceitaDTO() {
@@ -52,11 +53,11 @@ public class ReceitaDTO {
         this.descricao = descricao;
     }
 
-    public Double getValor() {
+    public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(Double valor) {
+    public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
 
