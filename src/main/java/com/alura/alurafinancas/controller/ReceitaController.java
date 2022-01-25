@@ -9,6 +9,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -42,6 +43,11 @@ public class ReceitaController {
     public ResponseEntity<Void> excluiReceita(@PathVariable Long id) {
         receitaServices.excluiReceita(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(value = "/{ano}/{mes}")
+    public ResponseEntity<List<ReceitaDTO>> listarReceitaPorMes(@PathVariable Integer ano, @PathVariable Integer mes) {
+        return ResponseEntity.ok(receitaServices.listarReceitasPorMes(ano, mes));
     }
 
     @GetMapping
