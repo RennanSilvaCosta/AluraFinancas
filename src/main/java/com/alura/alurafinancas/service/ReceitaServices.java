@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -69,5 +70,11 @@ public class ReceitaServices {
         } else {
             return receitaRepository.findByDescricaoContains(descricao).stream().map(receita -> new ReceitaDTO(receita)).collect(Collectors.toList());
         }
+    }
+
+    public List<ReceitaDTO> listarReceitasPorMes(Integer ano, Integer mes) {
+        LocalDate dataInicial = LocalDate.of(ano, mes, 1);
+        LocalDate dataFinal = LocalDate.of(ano, mes, dataInicial.lengthOfMonth());
+        return receitaRepository.findByDataBetween(dataInicial, dataFinal).stream().map(receita -> new ReceitaDTO(receita)).collect(Collectors.toList());
     }
 }
