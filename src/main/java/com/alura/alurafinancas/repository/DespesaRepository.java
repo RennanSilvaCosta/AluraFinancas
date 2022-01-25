@@ -13,4 +13,5 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
 
     Optional<Despesa> findByDescricaoAndData(String descricao, LocalDate data);
     List<Despesa> findByDescricaoContains(String descricao);
+    List<Despesa> findByDataBetween(LocalDate dataInicial, LocalDate dataFinal);
 }

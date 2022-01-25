@@ -49,4 +49,9 @@ public class DespesaController {
         return ResponseEntity.ok(despesaServices.listarDespesas(descricao));
     }
 
+    @GetMapping(value = "/{ano}/{mes}")
+    public ResponseEntity<List<DespesaDTO>> listarReceitaPorMes(@PathVariable Integer ano, @PathVariable Integer mes) {
+        return ResponseEntity.ok(despesaServices.listarDespesasPorMes(ano, mes));
+    }
+
 }
