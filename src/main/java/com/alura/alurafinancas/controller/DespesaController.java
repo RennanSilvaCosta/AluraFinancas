@@ -18,19 +18,19 @@ public class DespesaController {
     @Autowired
     DespesaServices despesaServices;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<DespesaDTO> cadastrarDespesa(@Valid @RequestBody DespesaDTO despesa) {
         DespesaDTO depesaDTO = despesaServices.cadastrarDespesa(despesa);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(depesaDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(depesaDTO);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<DespesaDTO> buscaDespesaPorId(@PathVariable Long id) {
         return ResponseEntity.ok().body(despesaServices.buscaDespesaPorId(id));
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<DespesaDTO> atualizaDespesa(@Valid @PathVariable Long id, @RequestBody DespesaDTO despesa) {
         despesa.setId(id);
         DespesaDTO despesaDTO = despesaServices.atualizaDespesa(despesa);
@@ -38,13 +38,13 @@ public class DespesaController {
         return ResponseEntity.created(uri).body(despesaDTO);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> excluiDespesa(@PathVariable Long id) {
         despesaServices.excluiDespesa(id);
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public ResponseEntity<List<DespesaDTO>> listarDespesas() {
         return ResponseEntity.ok(despesaServices.listarDespesas());
     }

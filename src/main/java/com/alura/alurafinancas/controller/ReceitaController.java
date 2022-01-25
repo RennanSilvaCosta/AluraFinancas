@@ -12,25 +12,25 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/receitas")
+@RequestMapping("/receitas")
 public class ReceitaController {
 
     @Autowired
     ReceitaServices receitaServices;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<ReceitaDTO> cadastrarReceita(@Valid @RequestBody ReceitaDTO receita) {
         ReceitaDTO receitaDTO = receitaServices.cadastrarReceita(receita);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(receitaDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(receitaDTO);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<ReceitaDTO> buscaReceitaPorId(@PathVariable Long id) {
         return ResponseEntity.ok().body(receitaServices.buscaReceitaPorId(id));
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<ReceitaDTO> atualizaReceita(@Valid @PathVariable Long id, @RequestBody ReceitaDTO receita) {
         receita.setId(id);
         ReceitaDTO receitaDTO = receitaServices.atualizaReceita(receita);
@@ -38,13 +38,13 @@ public class ReceitaController {
         return ResponseEntity.created(uri).body(receitaDTO);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> excluiReceita(@PathVariable Long id) {
         receitaServices.excluiReceita(id);
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public ResponseEntity<List<ReceitaDTO>> listarReceitas() {
         return ResponseEntity.ok(receitaServices.listarReceitas());
     }
