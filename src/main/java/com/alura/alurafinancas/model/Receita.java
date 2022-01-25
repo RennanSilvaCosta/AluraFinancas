@@ -4,6 +4,7 @@ import com.alura.alurafinancas.DTO.ReceitaDTO;
 import com.alura.alurafinancas.model.enums.StatusPagamento;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -15,7 +16,7 @@ public class Receita {
 
     private String descricao;
 
-    private Double valor;
+    private BigDecimal valor;
 
     private LocalDate data;
 
@@ -25,7 +26,7 @@ public class Receita {
     public Receita() {
     }
 
-    public Receita(Long id, String descricao, Double valor, LocalDate data, StatusPagamento pago) {
+    public Receita(Long id, String descricao, BigDecimal valor, LocalDate data, StatusPagamento pago) {
         this.id = id;
         this.descricao = descricao;
         this.valor = valor;
@@ -57,11 +58,11 @@ public class Receita {
         this.descricao = descricao;
     }
 
-    public Double getValor() {
+    public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(Double valor) {
+    public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
 
